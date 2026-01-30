@@ -4331,6 +4331,7 @@ export default {
         this.isListening = false
         this.isVoiceMode = false
         this.isStartingRecognition = false;
+        this.recognition = null; // Clear recognition after ended
       }
       
       // Start recognition
@@ -4346,7 +4347,11 @@ export default {
     
     stopVoiceRecognition() {
       if (this.recognition) {
-        this.recognition.stop()
+        try {
+          this.recognition.stop()
+        } catch (e) {
+          console.warn('Recognition already stopped')
+        }
         this.recognition = null
       }
       this.isListening = false
@@ -5542,8 +5547,8 @@ export default {
         const [stopwordsRes, keywordsRes, negativeRes, synonymsRes] = await Promise.all([
           this.$axios.get('/stopwords/public'),
           this.$axios.get('/keywords/public'),
-          this.$axios.get('/negativekeywords').catch(() => ({ data: [] })),
-          this.$axios.get('/synonyms').catch(() => ({ data: [] }))
+          this.$axios.get('/negativekeywords/public').catch(() => ({ data: [] })),
+          this.$axios.get('/synonyms/public').catch(() => ({ data: [] }))
         ]);
         
         const stopwordsData = stopwordsRes.data?.data || stopwordsRes.data || [];
@@ -5956,8 +5961,9 @@ export default {
       const link = document.createElement('link');
       link.id = cssId(quality);
       link.rel = 'stylesheet';
-      // Use public folder path (works in both dev and production)
-      link.href = `/gfx-${quality}.css`;
+      // Use base path for production deployment
+      const basePath = import.meta.env.BASE_URL || '/~s651102064101/frontend/';
+      link.href = `${basePath}gfx-${quality}.css`;
       
       document.head.appendChild(link);
       console.log(`✅ Loaded gfx-${quality}.css`);

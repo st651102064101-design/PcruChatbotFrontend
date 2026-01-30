@@ -468,7 +468,7 @@ function handleLinkGoogle() {
   const token = localStorage.getItem('userToken');
   
   // Redirect to Google OAuth with token as state
-  $axios.get('/auth/google/url', {
+  $axios.get('/auth/google/url.php', {
     params: { state: token }
   })
     .then(response => {
