@@ -1,0 +1,534 @@
+/* ==========================================================================
+   Light Mode Specific Overrides
+   ========================================================================== */
+
+/* Light Mode Theme Toggle Button - Strong contrast */
+[data-theme="light"] .theme-toggle-btn {
+  background: #ffffff !important;
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px !important;
+  color: #1f2937 !important;
+}
+
+/* Let inline SVG colors show in light mode */
+/* (removed empty rules that caused PostCSS warnings) */
+
+/* Light Mode Button SVG Icons */
+[data-theme="light"] .close-circle svg path {
+  stroke: #373737 !important;
+  stroke-width: 2;
+}
+
+[data-theme="light"] .theme-toggle-btn svg path {
+  stroke: #ffffff;
+  stroke-width: 2;
+}
+
+/* Keep clear-chat-btn red in light mode */
+[data-theme="light"] .clear-chat-btn {
+  background: #EF4444 !important;
+  border: none !important;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3) !important;
+  color: #FFFFFF !important;
+}
+
+/* Light Mode Message Bubbles - Add subtle border */
+[data-theme="light"] .message-bubble.bot {
+  border: 1px solid var(--cb-border-color);
+}
+
+/* Light Mode Input Pill - Ensure border is visible */
+[data-theme="light"] .input-pill {
+  border: 1px solid var(--cb-border-color) !important;
+}
+
+/* Light Mode Contact Cards - Ensure proper styling */
+[data-theme="light"] .contact-card {
+  background: var(--cb-bg-card) !important;
+  border: 1px solid var(--cb-border-color);
+}
+
+/* Light Mode Tooltip - Ensure visibility */
+[data-theme="light"] .chatbot-tooltip {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #1d1d1f;
+}
+
+/* Light Mode Unlike Tooltip */
+[data-theme="light"] .unlike-tooltip {
+  background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.95) 100%);
+  border: 1px solid rgba(139, 76, 184, 0.06);
+}
+
+/* Light Mode Like Tooltip */
+[data-theme="light"] .like-tooltip {
+  background: linear-gradient(135deg, rgba(255, 240, 245, 0.98) 0%, rgba(255, 235, 245, 0.95) 100%);
+  border: 1px solid rgba(236, 72, 153, 0.06);
+}
+
+/* Light Mode Feedback Dropdown */
+[data-theme="light"] .feedback-reason-dropdown {
+  background: rgba(255, 255, 255, 0.98);
+  border: 0.5px solid rgba(0,0,0,0.06);
+}
+
+/* Light Mode Category Sub Buttons */
+[data-theme="light"] .cat-sub-btn {
+  background: rgba(255, 255, 255, 0.5);
+  border: 0.5px solid rgba(0,0,0,0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* Light Mode Panel Footer */
+[data-theme="light"] .panel-footer {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Light Mode Chatbot Container */
+[data-theme="light"] .chatbot-container {
+  background-color: #ffffff;
+  color: #1f2937;
+}
+
+/* Light Mode Chat Panel */
+[data-theme="light"] .chat-panel {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-left: 1px solid #e5e7eb;
+}
+
+/* Light Mode Panel Footer Border */
+[data-theme="light"] .panel-footer {
+  background: rgba(255, 255, 255, 0.95);
+  border-top: 1px solid #e5e7eb;
+}
+.chat-panel { background: rgba(255, 255, 255, 0.95) !important; color: #000000 !important; }
+
+/* Light Mode Input Pill */
+[data-theme="light"] .input-pill {
+  background-color: #ffffff !important;
+  color: #1f2937 !important;
+  border: 1px solid transparent !important;
+}
+[data-theme="light"] .input-pill::placeholder {
+  color: #6b7280;
+}
+[data-theme="light"] .input-pill:focus {
+  border-color: #8B4CB8;
+  box-shadow: 0 0 0 3px rgba(139, 76, 184, 0.08);
+  background-color: #ffffff !important;
+}
+
+/* Light Mode Message Bubbles */
+[data-theme="light"] .message-bubble.bot {
+  background: #ffffff !important;
+  color: #1f2937 !important;
+}
+[data-theme="light"] .message-bubble.user {
+  background: linear-gradient(135deg, #8B4CB8 0%, #6B2C91 100%) !important;
+  color: #ffffff !important;
+}
+
+/* Light Mode Contact Cards */
+[data-theme="light"] .contact-card {
+  background: #ffffff !important;
+  border: 1px solid #e5e7eb;
+}
+[data-theme="light"] .contact-card:hover {
+  background: #f9fafb !important;
+  border-color: #6b7280;
+}
+[data-theme="light"] .contact-org {
+  color: #1f2937;
+}
+[data-theme="light"] .contact-officer {
+  color: #6b7280;
+}
+[data-theme="light"] .contact-phone {
+  color: #1a73e8;
+}
+
+/* Light Mode Tooltips */
+[data-theme="light"] .chatbot-tooltip {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #e5e7eb;
+  color: #1f2937;
+}
+
+/* Light Mode Mobile Tooltips */
+@media (max-width: 640px) {
+  [data-theme="light"] .unlike-tooltip,
+  [data-theme="light"] .like-tooltip {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid #e5e7eb !important;
+    color: #1f2937 !important;
+  }
+}
+
+/* Light Mode Category Buttons */
+[data-theme="light"] .cat-sub-btn {
+  background: rgba(255, 255, 255, 0.5);
+  border: 0.5px solid rgba(0,0,0,0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  color: #1d1d1f;
+}
+[data-theme="light"] .cat-sub-btn:hover {
+  background: rgba(107,44,145,0.08);
+  color: #6B2C91;
+  border-color: rgba(107,44,145,0.1);
+  box-shadow: 0 2px 8px rgba(107,44,145,0.08);
+}
+[data-theme="light"] .cat-sub-btn:focus {
+  outline: 3px solid rgba(107,44,145,0.14);
+  outline-offset: 2px;
+}
+[data-theme="light"] .cat-sub-icon {
+  color: rgba(0,0,0,0.45);
+}
+[data-theme="light"] .cat-sub-btn:hover .cat-sub-icon {
+  color: #6B2C91;
+}
+[data-theme="light"] .cat-sub-btn.disabled {
+  background: rgba(0,0,0,0.01);
+}
+[data-theme="light"] .cat-sub-btn.disabled .cat-sub-text {
+  color: rgba(0,0,0,0.38);
+}
+[data-theme="light"] .cat-sub-btn.disabled .cat-sub-icon {
+  color: rgba(0,0,0,0.22);
+}
+[data-theme="light"] .cat-sub-btn.disabled:hover {
+  background: rgba(0,0,0,0.01);
+  transform: none;
+}
+
+/* Light Mode Bot with Categories */
+[data-theme="light"] .bot-with-categories {
+  /* Keep semi-transparent so backdrop-filter blur is visible */
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid #e5e7eb;
+}
+
+/* Light Mode Background Placeholder */
+[data-theme="light"] .bg-placeholder-card {
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+}
+[data-theme="light"] .bg-placeholder-title {
+  color: #222;
+}
+[data-theme="light"] .bg-placeholder-desc {
+  color: #444;
+}
+
+/* Light Mode Ghost Input Suggestions */
+[data-theme="light"] .ghost-input .ghost-suffix {
+  color: #6B2C91;
+}
+
+/* Light Mode Ghost Typed Text */
+[data-theme="light"] .ghost-input .ghost-typed {
+  color: #1f2937;
+}
+
+[data-theme="light"] .suggestion-btn { 
+  background: rgba(255,255,255,0.8); 
+  color: #1d1d1f; 
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 0.5px solid rgba(107,44,145,0.1);
+}
+
+[data-theme="light"] .suggestion-btn::before {
+  background: linear-gradient(90deg, transparent, rgba(107,44,145,0.08), transparent);
+}
+
+
+[data-theme="light"] .suggestion-btn:hover { 
+  background: rgba(255,255,255,0.95); 
+  color: #6B2C91; 
+  box-shadow: 0 6px 20px rgba(107,44,145,0.15);
+  border-color: rgba(107,44,145,0.2);
+}
+
+[data-theme="light"] .suggestion-btn.selected { 
+  background: linear-gradient(135deg, rgba(107,44,145,0.1) 0%, rgba(139,76,184,0.08) 100%);
+  box-shadow: 0 4px 16px rgba(107,44,145,0.1); 
+  border: 1px solid rgba(107,44,145,0.2); 
+  color: #6B2C91;
+}
+
+
+
+[data-theme="light"] .read-more-text {
+  color: #6B2C91;
+}
+
+[data-theme="light"] .read-more-icon {
+  color: #6B2C91;
+}
+
+[data-theme="light"] .real-input:focus {
+  border-color: #8B4CB8;
+  box-shadow: 0 0 0 3px rgba(139, 76, 184, 0.08);
+}
+
+[data-theme="light"] .message-text {
+  color: inherit;
+}
+
+/* Links in Messages */
+[data-theme="light"] .message-text a {
+  color: #1a73e8; /* Use variable, fallback to Chrome Light Blue */
+}
+
+[data-theme="light"] .message-bubble.user .message-text a.message-link {
+  color: white;
+}
+
+[data-theme="light"] .message-bubble.bot .message-text a.message-link {
+  /* Use a color that is visible on the bot's light background */
+  color: #6B2C91; /* Same as the brand color */
+}
+
+[data-theme="light"] .read-more-count .help-circle {
+  color: #6B2C91; /* Same as the brand color */
+}
+
+[data-theme="light"] .apple-help-mini { 
+    background: rgba(107,44,145,0.08); 
+    border: 1px solid rgba(107,44,145,0.12); 
+    color: #6B2C91; 
+    box-shadow: 0 4px 12px rgba(107,44,145,0.06); 
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease; 
+}
+
+
+[data-theme="light"] .read-more-btn {
+  background: linear-gradient(135deg, rgba(139,76,184,0.08) 0%, rgba(107,44,145,0.06) 100%);
+  border: 1px solid rgba(139,76,184,0.15);
+  color: #6B2C91;
+}
+
+[data-theme="light"] .org-card {
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 8px 18px rgba(20,20,20,0.06);
+  border: 1px solid rgba(0,0,0,0.06);
+  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+[data-theme="light"] .org-card:hover { 
+    box-shadow: 0 16px 30px rgba(20,20,20,0.08); 
+}
+
+/* ============================================
+   THEME TRANSITION - Disable ALL transitions
+   Override all transitions during theme change
+   ============================================ */
+html.theme-transitioning [data-theme="light"] .apple-help-mini,
+html.theme-transitioning [data-theme="light"] .org-card,
+html.theme-transitioning [data-theme="light"] * {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+  -webkit-animation: none !important;
+  -moz-animation: none !important;
+  -o-animation: none !important;
+  animation: none !important;
+}
+
+/* ============================================
+   📱 LINE-style Menu Light Mode
+   ============================================ */
+
+[data-theme="light"] .line-menu-blur-backdrop {
+  background: rgba(255, 255, 255, 0.55) !important;
+  backdrop-filter: blur(30px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(180%) !important;
+}
+
+
+[data-theme="light"] .line-menu-handle {
+  background: transparent !important;
+}
+
+[data-theme="light"] .line-menu-handle-bar {
+  background: rgba(0, 0, 0, 0.25) !important;
+}
+
+[data-theme="light"] .line-menu-item {
+  background: rgba(139, 76, 184, 0.08);
+}
+
+[data-theme="light"] .line-menu-item:hover {
+  background: rgba(139, 76, 184, 0.15);
+}
+
+[data-theme="light"] .line-menu-label {
+  color: rgba(0, 0, 0, 0.85);
+}
+
+[data-theme="light"] .line-toggle-btn {
+  background: rgba(139, 76, 184, 0.1);
+  color: #6B2C91;
+}
+
+[data-theme="light"] .line-toggle-btn:hover {
+  background: rgba(139, 76, 184, 0.18);
+}
+
+[data-theme="light"] .line-submenu-container {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .line-submenu-item {
+  background: rgba(139, 76, 184, 0.06);
+  color: #1d1d1f;
+}
+
+[data-theme="light"] .line-submenu-item:hover {
+  background: rgba(139, 76, 184, 0.12);
+}
+
+[data-theme="light"] .line-category-header {
+  color: #1d1d1f;
+}
+
+[data-theme="light"] .line-back-btn {
+  background: rgba(139, 76, 184, 0.08);
+  color: #6B2C91;
+}
+
+[data-theme="light"] .line-back-btn:hover {
+  background: rgba(139, 76, 184, 0.15);
+}
+
+
+[data-theme="light"] .line-menu-wrapper {
+  background-color: rgb(255, 255, 255) !important;
+}
+
+
+[data-theme="light"] textarea.input-pill,
+[data-theme="light"] textarea.input-pill:focus {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  resize: none !important;        /* ไม่ให้ลากขยาย */
+  background: transparent !important; /* ถ้าต้องการพื้นหลังใส */
+}
+
+/* Light Mode Cookie Consent */
+[data-theme="light"] .cookie-card {
+  background: rgba(255, 255, 255, 0.95);
+  color: #1f2937;
+  border-color: #e5e7eb;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .cookie-card-inline {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: #e5e7eb;
+}
+
+[data-theme="light"] .cookie-header h3 {
+  color: #1f2937;
+}
+
+[data-theme="light"] .cookie-close {
+  color: #5f6368;
+}
+
+[data-theme="light"] .cookie-text {
+  color: #6b7280;
+}
+
+[data-theme="light"] .cookie-actions .btn {
+  background: #ffffff;
+  color: #1f2937;
+  border-color: #e5e7eb;
+}
+
+[data-theme="light"] .cookie-actions .policy {
+  border-color: #8B4CB8;
+  color: #8B4CB8;
+  background: transparent;
+}
+
+[data-theme="light"] .cookie-actions .acknowledge {
+  background: #8B4CB8;
+  color: #ffffff;
+  border: none;
+}
+
+[data-theme="light"] .cookie-overlay {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* Light Mode Privacy Modal */
+[data-theme="light"] .privacy-modal {
+  background: rgba(255, 255, 255, 0.95);
+  color: #1f2937;
+  border-color: #e5e7eb;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .privacy-modal-overlay {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+[data-theme="light"] .privacy-full-close {
+  color: #5f6368;
+}
+
+[data-theme="light"] .privacy-full-close:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .privacy-modal-header h4 {
+  color: #1f2937;
+}
+
+/* Light Mode Card (Privacy Policy) */
+[data-theme="light"] .card {
+  background: rgba(255, 255, 255, 0.95);
+  color: #1f2937;
+  border-color: #e5e7eb;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+}
+
+
+.overlay-backdrop-2 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 9vh; /* หรือปรับความสูงตามที่ต้องการ */
+  z-index: 150;
+  pointer-events: none; /* แนะนำ: เพื่อให้คลิกทะลุส่วนที่จางๆ ได้ */
+
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 1) 0%,    /* ด้านบน: ขาวทึบ 100% (เข้ม) */
+    rgba(255, 255, 255, .9) 50%, /* ช่วงกลางบน: ยังคงความขาวไว้หน่อย */
+    rgba(255, 255, 255, .2) 80%, /* ช่วงล่าง: เริ่มจางลงมาก */
+    rgba(255, 255, 255, 0) 100%   /* ด้านล่างสุด: โปร่งใส 0% (จางหายไปเลย) */
+  );
+}
+
+
+[data-theme="light"] .welcome-gemini-text {
+  color: #000000;
+}
+
+[data-theme="light"] .pcru-watermark img {
+  opacity: 0.04 !important;
+}

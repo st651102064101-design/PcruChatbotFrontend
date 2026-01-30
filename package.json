@@ -1,0 +1,39 @@
+{
+  "name": "pcru-chatbot",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18.x"
+  },
+  "scripts": {
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "bg:preview": "nohup npm run preview -- --port 36160 > ./preview.log 2>&1 & echo $! > ./preview.pid",
+    "stop:bg": "[ -f ./preview.pid ] && (kill $(cat ./preview.pid) && rm ./preview.pid) || pkill -f 'vite preview' || true"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.1.0",
+    "aos": "^2.3.4",
+    "axios": "^1.13.2",
+    "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.13.1",
+    "chart.js": "^3.9.1",
+    "leaflet": "^1.9.4",
+    "sweetalert2": "^11.26.10",
+    "vue": "^3.5.22",
+    "vue-chart-3": "^3.1.8",
+    "vue-router": "^4.6.3"
+  },
+  "devDependencies": {
+    "@types/aos": "^3.0.7",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.1.11",
+    "terser": "^5.44.1",
+    "vite": "^7.1.11",
+    "vite-plugin-vue-devtools": "^8.0.3"
+  }
+}
