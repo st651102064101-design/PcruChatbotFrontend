@@ -1,0 +1,17 @@
+# Serve from dist folder
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /~s651102064101/frontend/
+  
+  # Serve from dist if the file doesn't exist in current directory
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{DOCUMENT_ROOT}/dist/%{REQUEST_URI} -f
+  RewriteRule ^(.*)$ dist/$1 [L]
+  
+  # For SPA routing: redirect all requests to dist/index.html if file not found
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^.*$ dist/index.html [L]
+</IfModule>
+
