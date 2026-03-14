@@ -13,7 +13,7 @@ export default defineConfig(({ mode }) => {
   const devPort = Number(env.VITE_DEV_PORT || '5173')
  
   return {
-    base: '/~s651102064101/frontend/',
+    base: '/',
     plugins: [
       vue(),
     ],
