@@ -7,9 +7,10 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
+      path: '/chatbot',
       name: 'chatbot',
       component: ChatbotView,
+      meta: { requiresAuth: false } // Allow unauthenticated users to access chatbot
     },
     {
       path: '/dashboard',
