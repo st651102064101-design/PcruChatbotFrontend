@@ -155,29 +155,47 @@ const router = createRouter({
       component: () => import('@/views/manage/ManageQuestionsAnswers.vue'),
       // meta: { ... } // optional
     },
-    // --- Auth Layout Routes (no path prefix, just nesting) ---
+    // --- Auth Layout Routes (wrap each with AuthLayout) ---
     {
-      path: '',
+      path: '/login',
+      name: 'login',
       component: AuthLayout,
       children: [
         {
-          path: 'login',
-          name: 'login',
+          path: '',
           component: () => import('../views/LoginView.vue')
-        },
+        }
+      ]
+    },
+    {
+      path: '/forgotpassword',
+      name: 'forgotpassword',
+      component: AuthLayout,
+      children: [
         {
-          path: 'forgotpassword',
-          name: 'forgotpassword',
+          path: '',
           component: () => import('../views/ForgotpasswordView.vue')
-        },
+        }
+      ]
+    },
+    {
+      path: '/checkemail',
+      name: 'checkemail',
+      component: AuthLayout,
+      children: [
         {
-          path: 'checkemail',
-          name: 'checkemail',
+          path: '',
           component: () => import('../views/CheckemailView.vue')
-        },
+        }
+      ]
+    },
+    {
+      path: '/setnewpassword',
+      name: 'setnewpassword',
+      component: AuthLayout,
+      children: [
         {
-          path: 'setnewpassword',
-          name: 'setnewpassword',
+          path: '',
           component: () => import('../views/SetnewpasswordView.vue')
         }
       ]
