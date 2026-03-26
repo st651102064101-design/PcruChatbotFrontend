@@ -157,26 +157,44 @@ const router = createRouter({
     },
     // --- Auth Layout Routes ---
     {
-      path: '',
+      path: '/login',
       component: AuthLayout,
       children: [
         {
-          path: 'login',
+          path: '',
           name: 'login',
           component: () => import('../views/LoginView.vue')
-        },
+        }
+      ]
+    },
+    {
+      path: '/forgotpassword',
+      component: AuthLayout,
+      children: [
         {
-          path: 'forgotpassword',
+          path: '',
           name: 'forgotpassword',
           component: () => import('../views/ForgotpasswordView.vue')
-        },
+        }
+      ]
+    },
+    {
+      path: '/checkemail',
+      component: AuthLayout,
+      children: [
         {
-          path: 'checkemail',
+          path: '',
           name: 'checkemail',
           component: () => import('../views/CheckemailView.vue')
-        },
+        }
+      ]
+    },
+    {
+      path: '/setnewpassword',
+      component: AuthLayout,
+      children: [
         {
-          path: 'setnewpassword',
+          path: '',
           name: 'setnewpassword',
           component: () => import('../views/SetnewpasswordView.vue')
         }
