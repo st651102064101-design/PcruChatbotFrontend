@@ -7,10 +7,10 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/chatbot',
+      path: '/',
       name: 'chatbot',
       component: ChatbotView,
-      meta: { requiresAuth: false } // Allow unauthenticated users to access chatbot
+      meta: { requiresAuth: false } // Main page - no auth required
     },
     {
       path: '/dashboard',
@@ -152,38 +152,31 @@ const router = createRouter({
     {
       path: '/managequestionsanswers',
       name: 'ManageQuestionsAnswers',
-      component: ManageQuestionsAnswers,
+      component: () => import('@/views/manage/ManageQuestionsAnswers.vue'),
       // meta: { ... } // optional
     },
-    // --- Nested Routes สำหรับหน้า Authentication ---
+    // --- Authentication Routes ---
     {
-      path: '/',
-      component: AuthLayout,
-      redirect: '/login', // ถ้าเข้า path '/' ให้ไปที่ /login
-      children: [
-        {
-          path: 'login',
-          name: 'login',
-          component: () => import('../views/LoginView.vue')
-        },
-        {
-          path: 'forgotpassword',
-          name: 'forgotpassword',
-          component: () => import('../views/ForgotpasswordView.vue')
-        },
-        {
-          path: 'checkemail',
-          name: 'checkemail',
-          component: () => import('../views/CheckemailView.vue')
-        },
-        {
-          path: 'setnewpassword',
-          name: 'setnewpassword',
-          component: () => import('../views/SetnewpasswordView.vue')
-        }
-      ]
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/LoginView.vue')
     },
-    // Google OAuth Callback route (outside AuthLayout)
+    {
+      path: '/forgotpassword',
+      name: 'forgotpassword',
+      component: () => import('../views/ForgotpasswordView.vue')
+    },
+    {
+      path: '/checkemail',
+      name: 'checkemail',
+      component: () => import('../views/CheckemailView.vue')
+    },
+    {
+      path: '/setnewpassword',
+      name: 'setnewpassword',
+      component: () => import('../views/SetnewpasswordView.vue')
+    },
+    // Google OAuth Callback route
     {
       path: '/auth/google/callback',
       name: 'google-callback',
@@ -192,10 +185,7 @@ const router = createRouter({
     {
       path: '/passwordupdated',
       name: 'passwordupdated',
-      // You can create a simple component for "Password Updated" or just redirect
-      redirect: '/login' // Redirect to login page after successful password update
-      // Or, if you prefer a dedicated page:
-      // component: () => import('../views/PasswordUpdatedConfirmation.vue') 
+      redirect: '/login'
     }
   ],
 })
