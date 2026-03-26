@@ -25,13 +25,11 @@ import axiosPlugin from './plugins/axios'; // *** เพิ่มบรรทั
 const app = createApp(App)
 
 // กำหนด Global Properties
-app.config.globalProperties.$axios = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL
-});
+// Removed: axios.create without interceptors - let axiosPlugin handle it
 app.config.globalProperties.$swal = Swal;
 app.config.devtools = false;
 app.use(router)
-app.use(axiosPlugin); // *** เพิ่มบรรทัดนี้ ***
+app.use(axiosPlugin); // *** This sets up $axios with interceptors ***
 
 app.mount('#app')
 
