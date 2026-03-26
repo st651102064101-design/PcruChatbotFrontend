@@ -155,26 +155,32 @@ const router = createRouter({
       component: () => import('@/views/manage/ManageQuestionsAnswers.vue'),
       // meta: { ... } // optional
     },
-    // --- Authentication Routes ---
+    // --- Auth Layout Routes (no path prefix, just nesting) ---
     {
-      path: '/login',
-      name: 'login',
-      component: () => import('../views/LoginView.vue')
-    },
-    {
-      path: '/forgotpassword',
-      name: 'forgotpassword',
-      component: () => import('../views/ForgotpasswordView.vue')
-    },
-    {
-      path: '/checkemail',
-      name: 'checkemail',
-      component: () => import('../views/CheckemailView.vue')
-    },
-    {
-      path: '/setnewpassword',
-      name: 'setnewpassword',
-      component: () => import('../views/SetnewpasswordView.vue')
+      path: '',
+      component: AuthLayout,
+      children: [
+        {
+          path: 'login',
+          name: 'login',
+          component: () => import('../views/LoginView.vue')
+        },
+        {
+          path: 'forgotpassword',
+          name: 'forgotpassword',
+          component: () => import('../views/ForgotpasswordView.vue')
+        },
+        {
+          path: 'checkemail',
+          name: 'checkemail',
+          component: () => import('../views/CheckemailView.vue')
+        },
+        {
+          path: 'setnewpassword',
+          name: 'setnewpassword',
+          component: () => import('../views/SetnewpasswordView.vue')
+        }
+      ]
     },
     // Google OAuth Callback route
     {
