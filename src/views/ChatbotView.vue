@@ -9495,6 +9495,7 @@ export default {
       
       // Clear messages และ set new conversation ID
       this.messages = []
+      this.allStoredMessages = []
       this.currentGeminiConversationId = id
       this.showGeminiHistory = false // ปิด panel
       this.showGeminiDeleteButtons = false // ซ่อนถังขยะ
@@ -9655,6 +9656,7 @@ export default {
       
       // Clear messages และ set new conversation ID
       this.messages = []
+      this.allStoredMessages = []
       this.currentChatbotConversationId = id
       this.showChatbotHistory = false // ปิด panel
       this.showChatbotDeleteButtons = false // ซ่อนถังขยะ
