@@ -54,6 +54,26 @@ export const WS_CONFIG = {
 };
 
 /**
+ * Returns a no-op connection object (used when WebSocket is not supported)
+ */
+function createNoopConnection() {
+  return {
+    disconnect: () => {},
+    send: () => false,
+    getState: () => 3, // WebSocket.CLOSED
+    isConnected: () => false,
+  };
+}
+
+/**
+ * Detect if the backend URL is a Vercel serverless deployment.
+ * Vercel serverless does NOT support persistent WebSocket connections.
+ */
+function isVercelServerless(baseUrl) {
+  return typeof baseUrl === 'string' && baseUrl.includes('.vercel.app');
+}
+
+/**
  * Create a WebSocket connection with automatic reconnection
  * @param {string} endpoint - WebSocket endpoint
  * @param {Object} options - Configuration options
@@ -74,6 +94,12 @@ export function createWebSocketConnection(endpoint, options = {}) {
     axios = null,
     autoReconnect = true,
   } = options;
+
+  // Vercel serverless does NOT support WebSocket - skip entirely to avoid errors
+  const backendBaseUrl = axios?.defaults?.baseURL || import.meta.env.VITE_API_BASE_URL || '';
+  if (isVercelServerless(backendBaseUrl)) {
+    return createNoopConnection();
+  }
 
   let ws = null;
   let reconnectAttempts = 0;
