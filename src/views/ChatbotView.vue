@@ -1247,6 +1247,7 @@
 
               <!-- 🤖 Gemini AI Mode Toggle Button -->
               <button 
+                v-if="enableGeminiToggle"
                 class="gemini-toggle-btn" 
                 :class="{ active: useGeminiMode }"
                 @click="toggleGeminiMode"
@@ -2294,6 +2295,7 @@ export default {
       // 🤖 Gemini AI mode toggle
       useGeminiMode: false, // false = keyword matching, true = Gemini AI direct
       geminiSessionId: null, // Session ID for conversation continuity
+      enableGeminiToggle: import.meta.env.VITE_ENABLE_GEMINI_TOGGLE !== 'false', // Show/hide Gemini toggle button (default: true)
       
       // 🎤 Voice input mode toggle
       isVoiceMode: false, // false = text input, true = voice input
