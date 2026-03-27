@@ -1,11 +1,15 @@
 <template>
   <div class="dashboard-container">
+    <!-- Fullscreen Loading Overlay -->
+    <div v-if="categoriesLoading" class="loading-overlay fullscreen-loading">
+      <div class="loading-overlay-content">
+        <div class="apple-spinner-large"></div>
+        <p class="mt-4 text-secondary loading-text">Loading categories...</p>
+      </div>
+    </div>
+
     <!-- Main Content -->
     <div class="container-fluid pt-2 px-4 pb-5">
-      <div v-if="categoriesLoading" class="text-center py-5 fade-in">
-        <div class="apple-spinner"></div>
-        <p class="mt-3 text-secondary">Loading categories...</p>
-      </div>
 
       <div v-else-if="categoriesError" class="alert apple-alert-danger mx-auto" role="alert">
         <i class="bi bi-exclamation-circle-fill me-2"></i> {{ categoriesError }}
@@ -1296,6 +1300,70 @@ function closeModal() { showFileModal.value = false; }
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+}
+
+/* Fullscreen Loading Overlay */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.loading-overlay.fullscreen-loading {
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+}
+
+.loading-overlay-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.apple-spinner-large {
+  width: 60px;
+  height: 60px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #007AFF;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loading-text {
+  font-size: 16px;
+  color: #86868b;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 </style>
