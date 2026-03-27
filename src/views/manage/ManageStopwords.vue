@@ -370,6 +370,17 @@
                   :disabled="isEditing"
                 >
                 <small class="text-muted">คำนี้จะถูกตัดออกก่อนประมวลผลคำถาม</small>
+                
+                <!-- Segmentation preview -->
+                <div v-if="formData.StopwordText && !isEditing" class="mt-2 p-2 bg-light rounded-2">
+                  <small class="d-block text-muted mb-1">ตัวอย่างการตัดคำ:</small>
+                  <div class="segmentation-preview">
+                    <span v-for="(token, idx) in segmentationPreview" :key="idx" class="token-badge">
+                      {{ token }}
+                    </span>
+                    <span v-if="segmentationPreview.length === 0" class="text-muted small">-</span>
+                  </div>
+                </div>
               </div>
               <div v-if="formError" class="alert alert-danger small py-2">
                 {{ formError }}
@@ -394,6 +405,13 @@
     <Teleport to="body">
       <div v-if="showSeedModal" class="modal-overlay" @click.self="showSeedModal = false">
         <div class="apple-modal-card seed-modal-content">
+          <!-- Close Button SVG -->
+          <button class="modal-close-btn" @click="showSeedModal = false" aria-label="Close modal">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
           <div class="modal-icon primary">
             <i class="bi bi-magic"></i>
           </div>
@@ -630,6 +648,22 @@ const pagesToShow = computed(() => {
   }
   for (let i = start; i <= end; i++) pages.push(i);
   return pages;
+});
+
+// Segmentation preview - shows how the stopword is tokenized
+const segmentationPreview = computed(() => {
+  if (!formData.value.StopwordText) return [];
+  
+  const text = formData.value.StopwordText.toLowerCase().trim();
+  // Simple tokenization: split by spaces and common punctuation
+  const tokens = text
+    .replace(/[\p{P}\p{S}]/gu, ' ')  // Remove punctuation
+    .replace(/\s+/g, ' ')            // Collapse spaces
+    .trim()
+    .split(/\s+/)
+    .filter(t => t && t.length > 0);
+  
+  return tokens;
 });
 
 // Pagination methods
@@ -1322,6 +1356,35 @@ button.mobile-sidebar-toggle.mobile-inline-toggle { display: none !important; bo
   position: absolute;
   top: 1rem;
   right: 1rem;
+}
+
+/* Segmentation Preview */
+.segmentation-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.token-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #007AFF 0%, #0051D5 100%);
+  color: white;
+  padding: 0.35rem 0.75rem;
+  border-radius: 16px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  animation: slideIn 0.2s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Pagination */
@@ -2065,6 +2128,35 @@ button.mobile-sidebar-toggle.mobile-inline-toggle { display: none !important; bo
   max-height: 80vh;
   overflow-y: auto;
   text-align: center;
+  position: relative;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  transition: all 0.2s ease;
+  border-radius: 8px;
+  padding: 0;
+}
+
+.modal-close-btn:hover {
+  background: #f0f0f0;
+  color: #000;
+}
+
+.modal-close-btn svg {
+  width: 100%;
+  height: 100%;
 }
 
 .seed-loading {
