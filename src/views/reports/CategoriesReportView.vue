@@ -108,15 +108,58 @@ const fetchCategories = async () => {
   categoriesLoading.value = true;
   categoriesError.value = null;
   try {
-    const response = await $axios.get('/getcategories');
+    const baseUrl = $axios.defaults?.baseURL || 'unknown';
+    console.log('[CategoriesReport] Backend URL:', baseUrl);
+    
+    // Quick health check
+    try {
+      const health = await $axios.get('/health', { timeout: 5000 });
+      console.log('[CategoriesReport] Backend health:', health.data);
+    } catch (healthErr) {
+      console.warn('[CategoriesReport] Health check failed (non-fatal):', healthErr.message);
+    }
+    
+    console.log('[CategoriesReport] Fetching categories from protected endpoint...');
+    let response = await $axios.get('/getcategories');
+    console.log('[CategoriesReport] Protected endpoint response status:', response.status);
+    console.log('[CategoriesReport] Protected endpoint response:', response.data);
+    
     let data = response.data;
+    
     // Handle API response structure: { success: true, categories: [...], count: ... }
     if (data && !Array.isArray(data) && Array.isArray(data.categories)) {
       data = data.categories;
     }
-    categories.value = data;
+    
+    // If authentication fails or no data, try public endpoint
+    if (!Array.isArray(data) || data.length === 0) {
+      console.warn('[CategoriesReport] Protected endpoint returned empty or invalid, trying public endpoint...');
+      try {
+        response = await $axios.get('/categories', { timeout: 5000 });
+        console.log('[CategoriesReport] Public endpoint response:', response.data);
+        data = response.data;
+        if (data && !Array.isArray(data) && Array.isArray(data.categories)) {
+          data = data.categories;
+        }
+      } catch (publicErr) {
+        console.warn('[CategoriesReport] Public endpoint also failed:', publicErr.message);
+      }
+    }
+    
+    console.log('[CategoriesReport] Final categories data:', data);
+    categories.value = Array.isArray(data) ? data : [];
+    console.log('[CategoriesReport] Total categories loaded:', categories.value.length);
   } catch (err) {
-    categoriesError.value = err.response?.data?.message || 'Failed to load categories.';
+    console.error('[CategoriesReport] Error:', {
+      message: err.message,
+      status: err.response?.status,
+      statusText: err.response?.statusText,
+      data: err.response?.data,
+      url: err.config?.url,
+      endpoint: err.config?.url,
+      timeout: err.code === 'ECONNABORTED' ? 'Yes' : 'No'
+    });
+    categoriesError.value = err.response?.data?.message || err.message || 'Failed to load categories. Check console for details.';
   } finally {
     categoriesLoading.value = false;
   }
