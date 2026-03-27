@@ -277,8 +277,8 @@
               </div>
             </div>
             <div class="apple-modal-body p-0 bg-light position-relative">
-              <div v-if="isPdf(modalFileUrl)" class="h-100 w-100">
-                <iframe :src="modalFileUrl" frameborder="0" class="w-100 h-100"></iframe>
+              <div v-if="isPreviewable(modalFileUrl)" class="h-100 w-100">
+                <iframe :src="getEmbeddableUrl(modalFileUrl)" frameborder="0" class="w-100 h-100" allow="autoplay"></iframe>
               </div>
               <div v-else class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-5">
                 <div class="mb-3 text-secondary opacity-50">
@@ -832,11 +832,61 @@ function categoriesLastPage() { localCurrentPage.value = localTotalPages.value; 
 // File Modal
 function isUrl(val) { return val && /^https?:\/\//i.test(val); }
 function pdfUrl(val) { if (!val) return '#'; return isUrl(val) ? val : `/uploads/${val}`; }
-function isPdf(url) { return String(url).toLowerCase().trim().endsWith('.pdf'); }
+
+/**
+ * Check if URL is a PDF file
+ */
+function isPdf(url) { 
+  return String(url).toLowerCase().trim().endsWith('.pdf'); 
+}
+
+/**
+ * Check if URL is a Google Drive link
+ */
+function isGoogleDriveLink(url) {
+  return String(url).includes('drive.google.com');
+}
+
+/**
+ * Convert Google Drive share link to embeddable preview URL
+ * Converts: https://drive.google.com/file/d/FILE_ID/view?usp=drive_link
+ * To: https://drive.google.com/viewerng/viewer?embedded=true&url=https://drive.google.com/uc?id=FILE_ID
+ */
+function getEmbeddableGoogleDriveUrl(url) {
+  try {
+    const match = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
+    if (match && match[1]) {
+      const fileId = match[1];
+      return `https://drive.google.com/viewerng/viewer?embedded=true&url=https://drive.google.com/uc?id=${fileId}&export=download`;
+    }
+  } catch (e) {
+    console.warn('Failed to convert Google Drive URL:', e);
+  }
+  return url;
+}
+
+/**
+ * Get embeddable URL for both PDFs and Google Drive links
+ */
+function getEmbeddableUrl(url) {
+  if (isGoogleDriveLink(url)) {
+    return getEmbeddableGoogleDriveUrl(url);
+  }
+  return url;
+}
+
+/**
+ * Check if URL is previewable (PDF or Google Drive)
+ */
+function isPreviewable(url) {
+  return isPdf(url) || isGoogleDriveLink(url);
+}
+
 function pdfIconClass(val) {
   const s = String(val).toLowerCase();
   if (s.endsWith('.pdf')) return 'bi bi-file-earmark-pdf-fill text-danger';
   if (s.endsWith('.doc') || s.endsWith('.docx')) return 'bi bi-file-earmark-word-fill text-primary';
+  if (s.includes('drive.google.com')) return 'bi bi-file-earmark-pdf-fill text-danger'; // Assume Google Drive is PDF
   return 'bi bi-file-earmark-text text-secondary';
 }
 

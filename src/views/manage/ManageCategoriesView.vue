@@ -439,7 +439,7 @@
              </div>
           </div>
           <div class="apple-modal-body p-0 h-100 bg-light position-relative">
-            <iframe v-if="isPdf(modalFileUrl)" :src="modalFileUrl" frameborder="0" class="w-100 h-100"></iframe>
+            <iframe v-if="isPreviewable(modalFileUrl)" :src="getEmbeddableUrl(modalFileUrl)" frameborder="0" class="w-100 h-100" allow="autoplay"></iframe>
             <div v-else class="d-flex flex-column align-items-center justify-content-center h-100">
                <i class="bi bi-file-earmark-x fs-1 text-muted mb-3"></i>
                <p>Preview not available</p>
@@ -889,13 +889,61 @@ function pdfUrl(val) {
   if (!val) return '#';
   return /^https?:\/\//i.test(val) ? val : `/uploads/${val}`;
 }
+
+/**
+ * Check if URL is a PDF file
+ */
 function isPdf(url) {
   return String(url).toLowerCase().trim().endsWith('.pdf');
 }
+
+/**
+ * Check if URL is a Google Drive link
+ */
+function isGoogleDriveLink(url) {
+  return String(url).includes('drive.google.com');
+}
+
+/**
+ * Convert Google Drive share link to embeddable preview URL
+ * Converts: https://drive.google.com/file/d/FILE_ID/view?usp=drive_link
+ * To: https://drive.google.com/viewerng/viewer?embedded=true&url=https://drive.google.com/uc?id=FILE_ID
+ */
+function getEmbeddableGoogleDriveUrl(url) {
+  try {
+    const match = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
+    if (match && match[1]) {
+      const fileId = match[1];
+      return `https://drive.google.com/viewerng/viewer?embedded=true&url=https://drive.google.com/uc?id=${fileId}&export=download`;
+    }
+  } catch (e) {
+    console.warn('Failed to convert Google Drive URL:', e);
+  }
+  return url;
+}
+
+/**
+ * Get embeddable URL for both PDFs and Google Drive links
+ */
+function getEmbeddableUrl(url) {
+  if (isGoogleDriveLink(url)) {
+    return getEmbeddableGoogleDriveUrl(url);
+  }
+  return url;
+}
+
+/**
+ * Check if URL is previewable (PDF or Google Drive)
+ */
+function isPreviewable(url) {
+  return isPdf(url) || isGoogleDriveLink(url);
+}
+
 function pdfIconClass(val) {
   const s = String(val).toLowerCase();
   if (s.endsWith('.pdf')) return 'bi bi-file-earmark-pdf-fill text-danger';
   if (s.endsWith('.doc') || s.endsWith('.docx')) return 'bi bi-file-earmark-word-fill text-primary';
+  if (s.includes('drive.google.com')) return 'bi bi-file-earmark-pdf-fill text-danger'; // Assume Google Drive is PDF
   return 'bi bi-file-earmark-text-fill text-secondary';
 }
 
