@@ -1057,6 +1057,10 @@ button.mobile-sidebar-toggle.mobile-inline-toggle { display: none !important; bo
 .modal-icon {
   width: 64px;
   height: 64px;
+  min-width: 64px;
+  min-height: 64px;
+  aspect-ratio: 1;
+  flex-shrink: 0;
   border-radius: 50%;
   display: flex;
   align-items: center;

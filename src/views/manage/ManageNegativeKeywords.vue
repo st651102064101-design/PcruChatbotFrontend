@@ -1793,6 +1793,10 @@ onUnmounted(() => {
 .modal-icon {
   width: 60px;
   height: 60px;
+  min-width: 60px;
+  min-height: 60px;
+  aspect-ratio: 1;
+  flex-shrink: 0;
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
