@@ -404,7 +404,7 @@
     isGoogleLoading.value = true;
     try {
       // Get Google OAuth URL from backend
-      const response = await $axios.get('/auth/google/url.php');
+      const response = await $axios.get('/auth/google/url');
       if (response.data && response.data.url) {
         // Redirect to Google OAuth
         window.location.href = response.data.url;
