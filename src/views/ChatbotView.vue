@@ -8225,6 +8225,8 @@ export default {
       userMessage._collapsible = txt.length > 300
       userMessage._expanded = false
       this.messages.push(userMessage)
+      // Hide welcome categories once user sends first message
+      this.showWelcomeCategories = false
       // Mark that the user has interacted with the bot
       try { localStorage.setItem('chatbot_has_asked', '1'); } catch(e) {}
       this.hasAskedBot = true
