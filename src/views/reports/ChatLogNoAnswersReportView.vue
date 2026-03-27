@@ -130,6 +130,12 @@ onMounted(() => {
   if (userInfoString) { try { userInfoObject.value = JSON.parse(userInfoString); } catch(e) {} }
 
   // Establish WS connection for status indicator
+  const backendUrl = $axios.defaults?.baseURL || import.meta.env.VITE_API_BASE_URL || '';
+  const isVercel = backendUrl.includes('.vercel.app');
+  if (isVercel) {
+    wsConnected.value = true;
+  }
+  
   ws = createWebSocketConnection(WS_ENDPOINTS.CHAT_LOGS, {
     axios: $axios,
     onOpen: () => { wsConnected.value = true; },

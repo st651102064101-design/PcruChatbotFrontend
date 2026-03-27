@@ -418,6 +418,15 @@ onMounted(() => {
 
   fetchData();
   
+  // Check if backend is on Vercel (no WebSocket support)
+  const backendUrl = $axios.defaults?.baseURL || '';
+  const isVercel = backendUrl.includes('.vercel.app');
+  
+  // If Vercel, assume "online" since REST API works fine
+  if (isVercel) {
+    wsConnected.value = true;
+  }
+  
   ws = createWebSocketConnection(WS_ENDPOINTS.FEEDBACKS, {
     axios: $axios,
     onMessage: (message) => {
