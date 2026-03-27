@@ -9728,6 +9728,7 @@ export default {
       const allConvMessages = conv.messages || []
       const startIndex = Math.max(0, allConvMessages.length - this.MESSAGES_PER_PAGE)
       this.messages = allConvMessages.slice(startIndex)
+      this.allStoredMessages = [] // Reset stored messages cache
       this.showChatbotHistory = false
       this.showChatbotDeleteButtons = false // ซ่อนถังขยะ
       
