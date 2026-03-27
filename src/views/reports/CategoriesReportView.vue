@@ -52,6 +52,7 @@ import AnimatedToggleIcon from '@/components/AnimatedToggleIcon.vue';
 import CategoriesReport from '@/views/dashboards/officers/CategoriesReport.vue';
 import { bindSidebarResize, isSidebarCollapsed, isMobileSidebarOpen } from '@/stores/sidebarState';
 import { Chart as ChartJS, registerables } from 'chart.js';
+import { createWebSocketConnection, WS_ENDPOINTS } from '@/config/websocket';
 import '@/assets/sidebar.css';
 import '@/assets/dashboard-styles.css';
 
@@ -71,6 +72,10 @@ const categoriesError = ref(null);
 const searchQueryCategories = ref('');
 const categoriesCurrentPage = ref(1);
 const categoriesItemsPerPage = ref(5);
+
+// WebSocket State
+const wsConnected = ref(false);
+let ws = null;
 
 // Apple Colors
 const appleColors = [
@@ -198,9 +203,26 @@ onMounted(() => {
     try { userInfoObject.value = JSON.parse(userInfoString); } catch(e) {}
   }
   fetchCategories();
+
+  // WebSocket Connection
+  ws = createWebSocketConnection(WS_ENDPOINTS.CATEGORIES, {
+    axios: $axios,
+    onMessage: (message) => {
+      // Refresh if categories updated
+      if (message?.type === 'CATEGORIES_UPDATE' || message?.action) {
+        fetchCategories();
+      }
+    },
+    onOpen: () => { wsConnected.value = true; },
+    onClose: () => { wsConnected.value = false; }
+  });
 });
 
 onUnmounted(() => {
+  // Clean up WebSocket
+  if (ws && typeof ws.disconnect === 'function') {
+    ws.disconnect();
+  }
   if (typeof unbindSidebarResize === 'function') unbindSidebarResize();
   // Ensure mobile overlay is removed when leaving this view
   isMobileSidebarOpen.value = false;
