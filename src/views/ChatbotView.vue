@@ -9499,7 +9499,7 @@ export default {
       this.currentGeminiConversationId = id
       this.showGeminiHistory = false // ปิด panel
       this.showGeminiDeleteButtons = false // ซ่อนถังขยะ
-      this.showWelcomeCategories = false // ปิด dropdown หมวดหมู่
+      this.showWelcomeCategories = true // แสดง dropdown หมวดหมู่
       this.saveGeminiConversations()
       return id
     },
@@ -9514,9 +9514,10 @@ export default {
       this.isTemporaryGemini = true
       this.currentGeminiConversationId = null
       this.messages = []
+      this.allStoredMessages = []
       this.showGeminiHistory = false // ปิด panel
       this.showGeminiDeleteButtons = false // ซ่อนถังขยะ
-      this.showWelcomeCategories = false // ปิด dropdown หมวดหมู่
+      this.showWelcomeCategories = true // แสดง dropdown หมวดหมู่
       
       // แสดง toast แจ้งเตือน
       if (this.$toast) {
@@ -9660,7 +9661,7 @@ export default {
       this.currentChatbotConversationId = id
       this.showChatbotHistory = false // ปิด panel
       this.showChatbotDeleteButtons = false // ซ่อนถังขยะ
-      this.showWelcomeCategories = false // ปิด dropdown หมวดหมู่
+      this.showWelcomeCategories = true // แสดง dropdown หมวดหมู่
       this.saveChatbotConversations()
       return id
     },
@@ -9675,9 +9676,10 @@ export default {
       this.isTemporaryChatbot = true
       this.currentChatbotConversationId = null
       this.messages = []
+      this.allStoredMessages = []
       this.showChatbotHistory = false // ปิด panel
       this.showChatbotDeleteButtons = false // ซ่อนถังขยะ
-      this.showWelcomeCategories = false // ปิด dropdown หมวดหมู่
+      this.showWelcomeCategories = true // แสดง dropdown หมวดหมู่
       
       // แสดง toast แจ้งเตือน
       if (this.$toast) {
