@@ -5663,35 +5663,16 @@ body.no-effects .apple-help-button::after { display: none !important; }
 
 /* Bot copy button (inside apple-feedback or standalone) */
 .bot-copy-btn {
-  opacity: 0.45;
   transition: opacity 0.15s ease, background 0.12s ease, transform 0.12s ease;
-  color: inherit;
-}
-.bot-copy-btn svg {
-  stroke: currentColor;
 }
 .bot-copy-btn:hover {
-  opacity: 1;
   transform: translateY(-1px);
 }
-.message-bubble.bot:hover .bot-copy-btn {
-  opacity: 0.7;
+.message-bubble.bot .bot-copy-btn {
+  color: inherit;
 }
-
-/* Light mode explicit styling */
-[data-theme="light"] .bot-copy-btn svg {
-  stroke: rgba(0, 0, 0, 0.6);
-}
-[data-theme="light"] .bot-copy-btn:hover svg {
-  stroke: rgba(0, 0, 0, 0.8);
-}
-
-/* Dark mode explicit styling */
-[data-theme="dark"] .bot-copy-btn svg {
-  stroke: rgba(255, 255, 255, 0.7);
-}
-[data-theme="dark"] .bot-copy-btn:hover svg {
-  stroke: rgba(255, 255, 255, 0.95);
+.message-bubble.bot .bot-copy-btn svg {
+  stroke: currentColor;
 }
 
 /* Standalone copy bar (for bot messages with no apple-feedback) */
