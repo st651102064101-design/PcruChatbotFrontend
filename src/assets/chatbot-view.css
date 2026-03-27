@@ -5661,6 +5661,28 @@ body.no-effects .apple-help-button::after { display: none !important; }
   border-top: 0.5px solid rgba(0, 0, 0, 0.04);
 }
 
+/* Bot copy button (inside apple-feedback or standalone) */
+.bot-copy-btn {
+  opacity: 0.45;
+  transition: opacity 0.15s ease, background 0.12s ease, transform 0.12s ease;
+}
+.bot-copy-btn:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+.message-bubble.bot:hover .bot-copy-btn {
+  opacity: 0.7;
+}
+
+/* Standalone copy bar (for bot messages with no apple-feedback) */
+.bot-copy-standalone {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 6px;
+  padding-top: 4px;
+  border-top: 0.5px solid rgba(0, 0, 0, 0.04);
+}
+
 /* When feedback is already given, make it more subtle (past messages) */
 .apple-feedback.has-feedback {
   opacity: 0.7;

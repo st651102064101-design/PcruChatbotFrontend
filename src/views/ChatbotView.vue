@@ -898,6 +898,21 @@
                     :class="{ 'has-feedback': msg.feedback }"
                     v-if="msg.type === 'bot' && !msg.typing && (msg.text || msg.results) && msg.found === true && !msg.multipleResults"
                   >
+                    <!-- Copy button: left side of feedback bar -->
+                    <button
+                      type="button"
+                      class="apple-feedback-btn bot-copy-btn"
+                      @click.stop="copyMessage(msg)"
+                      aria-label="คัดลอกข้อความ"
+                      title="คัดลอกข้อความ"
+                    >
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 1H5a2 2 0 0 0-2 2v11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        <rect x="8" y="4" width="13" height="13" rx="2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </button>
+                    <!-- Spacer to push like/dislike to the right -->
+                    <span style="flex: 1;"></span>
                     <!-- Like button: always show -->
                     <button
                       class="apple-feedback-btn"
@@ -969,6 +984,25 @@
                         </div>
                       </transition>
                     </div>
+                  </div>
+
+                  <!-- 📋 Copy button for bot messages WITHOUT apple-feedback (no answer / multiple results) -->
+                  <div
+                    v-if="msg.type === 'bot' && !msg.typing && msg.text && !(msg.found === true && !msg.multipleResults)"
+                    class="bot-copy-standalone"
+                  >
+                    <button
+                      type="button"
+                      class="apple-feedback-btn bot-copy-btn"
+                      @click.stop="copyMessage(msg)"
+                      aria-label="คัดลอกข้อความ"
+                      title="คัดลอกข้อความ"
+                    >
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 1H5a2 2 0 0 0-2 2v11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        <rect x="8" y="4" width="13" height="13" rx="2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </button>
                   </div>
                 </div>
               </div>
