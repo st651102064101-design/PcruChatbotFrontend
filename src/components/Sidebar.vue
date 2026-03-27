@@ -1040,7 +1040,7 @@ const handleLogout = () => { logout(router); };
   border-radius: 16px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 
               0 2px 8px rgba(0, 0, 0, 0.12);
-  z-index: 99999 !important;
+  z-index: 9999999 !important;
   overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.08);
 }
@@ -1161,7 +1161,7 @@ const handleLogout = () => { logout(router); };
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 1040;
+  z-index: 9999998;
   background: transparent;
 }
 

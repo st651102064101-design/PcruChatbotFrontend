@@ -443,7 +443,17 @@ function formatFullDateTime(timestamp) {
 }
 
 const getStatusText = (qa) => {
-  if (!qa.ReviewDate) return 'No Date';
+  const feedbackTotal = (qa.unlikeCount || 0) + (qa.pendingCount || 0);
+  
+  if (!qa.ReviewDate) {
+    // No ReviewDate: check if has feedback
+    if (feedbackTotal > 0) {
+      return `Feedback Pending (${feedbackTotal})`;
+    }
+    return 'No Date';
+  }
+  
+  // Has ReviewDate: show deadline status
   const reviewDate = new Date(qa.ReviewDate);
   const today = new Date();
   const diffTime = reviewDate - today;
@@ -457,7 +467,17 @@ const getStatusText = (qa) => {
 
 // Return badge class for the text status
 const getStatusBadgeClass = (qa) => {
-  if (!qa.ReviewDate) return 'status-pill gray';
+  const feedbackTotal = (qa.unlikeCount || 0) + (qa.pendingCount || 0);
+  
+  if (!qa.ReviewDate) {
+    // No ReviewDate: check feedback
+    if (feedbackTotal > 0) {
+      return 'status-pill orange'; // Feedback needs attention
+    }
+    return 'status-pill gray';
+  }
+  
+  // Has ReviewDate: show deadline status
   const reviewDate = new Date(qa.ReviewDate);
   const today = new Date();
   const diffTime = reviewDate - today;
@@ -471,7 +491,7 @@ const getStatusBadgeClass = (qa) => {
 
 // Return small badge for the date itself
 const getReviewDateBadgeClass = (timestamp) => {
-  if (!timestamp) return 'apple-badge-gray';
+  if (!timestamp) return 'apple-badge-orange'; // No ReviewDate but on the list = has feedback
   const now = new Date();
   const reviewDate = new Date(timestamp);
   if (isNaN(reviewDate.getTime())) return 'apple-badge-gray';
@@ -606,20 +626,36 @@ const fetchData = async () => {
       throw new Error(res.data.message || 'Failed to load questions');
     }
 
-    // Filter questions that need review (ReviewDate within threshold or overdue)
+    // Filter questions that need review:
+    // 1. Has explicit ReviewDate within threshold
+    // 2. Has unresolved negative feedback (unlikeCount > 0)
+    // 3. Has pending feedback (pendingCount > 0)
     const today = new Date();
     const thresholdDate = new Date();
     thresholdDate.setDate(today.getDate() + props.daysThreshold);
 
     items.value = data.filter(qa => {
-      if (!qa.ReviewDate) return false;
-      const reviewDate = new Date(qa.ReviewDate);
-      return reviewDate <= thresholdDate;
+      // Check if ReviewDate is set and within threshold
+      if (qa.ReviewDate) {
+        const reviewDate = new Date(qa.ReviewDate);
+        if (reviewDate <= thresholdDate) return true;
+      }
+      // Include if has unresolved feedback (unlike or pending)
+      if ((qa.unlikeCount || 0) > 0 || (qa.pendingCount || 0) > 0) {
+        return true;
+      }
+      return false;
     }).sort((a, b) => {
-      // Sort by ReviewDate ascending (most urgent first)
-      if (!a.ReviewDate) return 1;
-      if (!b.ReviewDate) return -1;
-      return new Date(a.ReviewDate) - new Date(b.ReviewDate);
+      // Sort by ReviewDate if available, otherwise by feedback count
+      if (a.ReviewDate && b.ReviewDate) {
+        return new Date(a.ReviewDate) - new Date(b.ReviewDate);
+      }
+      if (a.ReviewDate) return -1; // a has date, prioritize it
+      if (b.ReviewDate) return 1;  // b has date, prioritize it
+      // Both no ReviewDate: sort by negative feedback count (descending)
+      const aFeedback = (a.unlikeCount || 0) + (a.pendingCount || 0);
+      const bFeedback = (b.unlikeCount || 0) + (b.pendingCount || 0);
+      return bFeedback - aFeedback;
     });
 
   } catch (err) {
@@ -636,15 +672,26 @@ const fetchData = async () => {
 
 // Helper to get item status
 function getItemStatus(qa) {
-  if (!qa.ReviewDate) return 'no-date';
-  const reviewDate = new Date(qa.ReviewDate);
-  const today = new Date();
-  const diffTime = reviewDate - today;
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  const feedbackTotal = (qa.unlikeCount || 0) + (qa.pendingCount || 0);
   
-  if (diffDays < 0) return 'overdue';
-  if (diffDays <= 7) return 'urgent';
-  return 'soon';
+  if (qa.ReviewDate) {
+    const reviewDate = new Date(qa.ReviewDate);
+    const today = new Date();
+    const diffTime = reviewDate - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays < 0) return 'overdue';
+    if (diffDays <= 7) return 'urgent';
+    return 'soon';
+  }
+  
+  // No ReviewDate: determine status by feedback
+  if (feedbackTotal > 0) {
+    // Has unresolved feedback - mark as urgent
+    return 'urgent';
+  }
+  
+  return 'no-date';
 }
 
 const filteredQuestions = computed(() => {
@@ -759,9 +806,11 @@ const pagesToShow = computed(() => {
 
 // Stats
 const overdueCount = computed(() => {
-  return items.value.filter(qa => {
-    if (!qa.ReviewDate) return false;
-    return new Date(qa.ReviewDate) < new Date();
+  return filteredQuestions.value.filter(qa => {
+    if (qa.ReviewDate && new Date(qa.ReviewDate) < new Date()) {
+      return true;
+    }
+    return false;
   }).length;
 });
 
@@ -769,10 +818,14 @@ const urgentCount = computed(() => {
   const now = new Date();
   const nextWeek = new Date();
   nextWeek.setDate(now.getDate() + 7);
-  return items.value.filter(qa => {
-    if (!qa.ReviewDate) return false;
-    const d = new Date(qa.ReviewDate);
-    return d >= now && d <= nextWeek;
+  return filteredQuestions.value.filter(qa => {
+    // Has ReviewDate within next 7 days
+    if (qa.ReviewDate) {
+      const d = new Date(qa.ReviewDate);
+      return d >= now && d <= nextWeek;
+    }
+    // Or has pending feedback (no ReviewDate but flagged as urgent)
+    return (qa.unlikeCount || 0) > 0 || (qa.pendingCount || 0) > 0;
   }).length;
 });
 
