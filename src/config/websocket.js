@@ -43,11 +43,14 @@ export const WS_ENDPOINTS = {
 
 /**
  * WebSocket reconnection configuration
+ * Note: Vercel serverless does NOT support WebSocket connections.
+ * Limit reconnection attempts to avoid console spam and gracefully fail.
  */
 export const WS_CONFIG = {
   RECONNECT_DELAY: 3000, // milliseconds
-  MAX_RECONNECT_ATTEMPTS: 5, // -1 for unlimited
+  MAX_RECONNECT_ATTEMPTS: 2, // Reduced to 2 attempts (from 5) to fail fast on Vercel
   HEARTBEAT_INTERVAL: 30000, // 30 seconds
+  TIMEOUT_MS: 5000, // WebSocket connection timeout
 };
 
 /**
@@ -95,10 +98,22 @@ export function createWebSocketConnection(endpoint, options = {}) {
 
   function connect() {
     try {
+      // Add connection timeout to fail fast (especially important for Vercel serverless)
+      let timeoutId = null;
+      
       ws = new WebSocket(url);
 
+      // Set timeout to close WebSocket if it doesn't connect quickly
+      timeoutId = setTimeout(() => {
+        if (ws && ws.readyState === WebSocket.CONNECTING) {
+          console.warn(`⏱️  WebSocket timeout (${WS_CONFIG.TIMEOUT_MS}ms) for ${endpoint}`);
+          ws.close();
+        }
+      }, WS_CONFIG.TIMEOUT_MS);
+
       ws.onopen = (event) => {
-        console.log(`WebSocket connected: ${endpoint}`);
+        clearTimeout(timeoutId);
+        console.log(`✅ WebSocket connected: ${endpoint}`);
         reconnectAttempts = 0;
         
         // Start heartbeat
@@ -127,12 +142,12 @@ export function createWebSocketConnection(endpoint, options = {}) {
       };
 
       ws.onerror = (error) => {
-        console.error(`WebSocket error: ${endpoint}`, error);
+        console.warn(`⚠️  WebSocket error on ${endpoint}:`, error?.message || error);
         if (onError) onError(error);
       };
 
       ws.onclose = (event) => {
-        console.log(`WebSocket disconnected: ${endpoint}`);
+        console.log(`❌ WebSocket disconnected from ${endpoint}`);
         
         // Clear heartbeat
         if (heartbeatInterval) {
@@ -147,10 +162,10 @@ export function createWebSocketConnection(endpoint, options = {}) {
           const maxAttempts = WS_CONFIG.MAX_RECONNECT_ATTEMPTS;
           if (maxAttempts === -1 || reconnectAttempts < maxAttempts) {
             reconnectAttempts++;
-            console.log(`Reconnecting... (attempt ${reconnectAttempts})`);
+            console.log(`🔄 WebSocket reconnect attempt ${reconnectAttempts}/${maxAttempts}...`);
             reconnectTimeout = setTimeout(connect, WS_CONFIG.RECONNECT_DELAY);
           } else {
-            console.log('Max reconnection attempts reached');
+            console.warn(`⚠️  Max WebSocket reconnection attempts (${maxAttempts}) reached for ${endpoint}. Giving up.`);
           }
         }
       };
