@@ -276,9 +276,9 @@
                 </button>
               </div>
             </div>
-            <div class="apple-modal-body p-0 bg-light position-relative">
-              <div v-if="isPreviewable(modalFileUrl)" class="h-100 w-100">
-                <iframe :src="getEmbeddableUrl(modalFileUrl)" frameborder="0" class="w-100 h-100" allow="autoplay"></iframe>
+            <div class="apple-modal-body p-0 bg-light position-relative" style="flex: 1;">
+              <div v-if="isPreviewable(modalFileUrl)" class="h-100 w-100" style="display: flex; flex-direction: column;">
+                <iframe :src="getEmbeddableUrl(modalFileUrl)" frameborder="0" class="w-100" style="flex: 1; border: none;" allow="autoplay"></iframe>
               </div>
               <div v-else class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-5">
                 <div class="mb-3 text-secondary opacity-50">
@@ -1102,7 +1102,11 @@ function closeModal() { showFileModal.value = false; }
   border-radius: 18px; width: 100%; max-width: 900px;
   box-shadow: 0 24px 48px rgba(0,0,0,0.2); overflow: hidden; display: flex; flex-direction: column; height: 85vh;
 }
+.apple-modal-content.large-modal {
+  max-width: 95vw; width: 95vw; height: 90vh;
+}
 .apple-modal-header { border-bottom: 1px solid rgba(0,0,0,0.06); background: white; }
+.apple-modal-body { flex: 1; overflow: auto; display: flex; flex-direction: column; }
 .apple-icon-btn, .apple-close-btn {
   width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
   border: none; background: rgba(0,0,0,0.05); color: #1d1d1f; transition: all 0.2s; text-decoration: none;

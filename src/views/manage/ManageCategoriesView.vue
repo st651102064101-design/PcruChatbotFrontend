@@ -427,7 +427,7 @@
     <!-- 4. File Preview Modal -->
     <transition name="apple-zoom">
       <div v-if="showFileModal" class="apple-modal-overlay" @click.self="closeFileModal">
-        <div class="apple-modal-content large-modal" style="height: 90vh;">
+        <div class="apple-modal-content large-modal">
           <div class="apple-modal-header py-2">
              <div class="d-flex align-items-center gap-2">
                 <i class="bi bi-file-earmark-pdf text-danger fs-5"></i>
@@ -438,8 +438,10 @@
                 <button class="apple-close-btn" @click="closeFileModal"><i class="bi bi-x-lg"></i></button>
              </div>
           </div>
-          <div class="apple-modal-body p-0 h-100 bg-light position-relative">
-            <iframe v-if="isPreviewable(modalFileUrl)" :src="getEmbeddableUrl(modalFileUrl)" frameborder="0" class="w-100 h-100" allow="autoplay"></iframe>
+          <div class="apple-modal-body p-0 bg-light position-relative" style="flex: 1;">
+            <div v-if="isPreviewable(modalFileUrl)" class="h-100 w-100" style="display: flex; flex-direction: column;">
+              <iframe :src="getEmbeddableUrl(modalFileUrl)" frameborder="0" class="w-100" style="flex: 1; border: none;" allow="autoplay"></iframe>
+            </div>
             <div v-else class="d-flex flex-column align-items-center justify-content-center h-100">
                <i class="bi bi-file-earmark-x fs-1 text-muted mb-3"></i>
                <p>Preview not available</p>
@@ -1717,7 +1719,9 @@ button.mobile-sidebar-toggle.mobile-inline-toggle { display: none !important; bo
 }
 
 .apple-modal-content.wide-modal { max-width: 800px; }
-.apple-modal-content.large-modal { max-width: 90vw; }
+.apple-modal-content.large-modal { max-width: 95vw; width: 95vw; height: 90vh; }
+.apple-modal-header { border-bottom: 1px solid rgba(0,0,0,0.06); background: white; }
+.apple-modal-body { flex: 1; overflow: auto; display: flex; flex-direction: column; }
 
 .apple-modal-header {
   padding: 24px 24px 16px;
