@@ -608,6 +608,12 @@ const matchesCountText = (kw) => {
 };
 
 onMounted(() => {
+  const backendUrl = $axios.defaults?.baseURL || import.meta.env.VITE_API_BASE_URL || '';
+  const isVercel = backendUrl.includes('.vercel.app');
+  if (isVercel) {
+    wsConnected.value = true;
+  }
+  
   ws = createWebSocketConnection(WS_ENDPOINTS.KEYWORDS, {
     axios: $axios,
     onMessage: (message) => {

@@ -884,6 +884,12 @@ function connectWebSocket() {
     return;
   }
   
+  const backendUrl = $axios.defaults?.baseURL || import.meta.env.VITE_API_BASE_URL || '';
+  const isVercel = backendUrl.includes('.vercel.app');
+  if (isVercel) {
+    wsConnected.value = true;
+  }
+  
   try {
     wsConnection = createWebSocketConnection(WS_ENDPOINTS.FEEDBACKS, {
       axios: $axios,

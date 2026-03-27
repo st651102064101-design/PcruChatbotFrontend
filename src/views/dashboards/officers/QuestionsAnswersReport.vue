@@ -332,6 +332,12 @@ const tagColors = ['#0071e3', '#34C759', '#FF3B30', '#FF9500', '#AF52DE', '#5856
 onMounted(() => {
   initTooltips();
   
+  const backendUrl = $axios.defaults?.baseURL || import.meta.env.VITE_API_BASE_URL || '';
+  const isVercel = backendUrl.includes('.vercel.app');
+  if (isVercel) {
+    wsConnected.value = true;
+  }
+  
   ws = createWebSocketConnection(WS_ENDPOINTS.QUESTIONS_ANSWERS, {
     axios: $axios,
     onMessage: (message) => {

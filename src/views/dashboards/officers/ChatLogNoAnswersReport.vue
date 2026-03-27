@@ -453,6 +453,12 @@ onMounted(() => {
   fetchData();
   initTooltips();
   
+  const backendUrl = $axios.defaults?.baseURL || import.meta.env.VITE_API_BASE_URL || '';
+  const isVercel = backendUrl.includes('.vercel.app');
+  if (isVercel) {
+    wsConnected.value = true;
+  }
+  
   // Initialize WebSocket
   ws = createWebSocketConnection(WS_ENDPOINTS.CHAT_LOGS, {
     axios: $axios,

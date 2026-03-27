@@ -128,6 +128,11 @@ onMounted(() => {
   if (!token) { router.replace({ name: 'login' }); return; }
   if (type) userType.value = type;
   if (userInfoString) { try { userInfoObject.value = JSON.parse(userInfoString); } catch(e) {} }
+  const backendUrl = localStorage.getItem('backendUrl') || import.meta.env.VITE_API_BASE_URL || '';
+  const isVercel = backendUrl.includes('.vercel.app');
+  if (isVercel) {
+    wsConnected.value = true;
+  }
   fetchQuestionsAnswers();
 });
 
