@@ -1,41 +1,43 @@
 <template>
-  <!-- Apple-style Back Button -->
-  <router-link to="/login" class="apple-back-btn">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="15 18 9 12 15 6"></polyline>
-    </svg>
-    <span>Back</span>
-  </router-link>
+  <div class="login-page-wrapper">
+    <!-- Apple-style Back Button -->
+    <router-link to="/login" class="apple-back-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+      <span>Back</span>
+    </router-link>
 
-  <form ref="loginForm" @submit.prevent="handleResetPassword" class="needs-validation" novalidate>
-                <div class="">
-                    <header class="fs-1 fw-bold mb-4 text-center text-lg-start">
-                        Forgot password
-                    </header>
-                    <p>Remember your password? <router-link to="/login" class="text-dark fw-bold">Login here</router-link></p>
-                    
-                    <div class="mb-3 position-relative pt-2 pe-xl-5">
-                        <input ref="emailInput" type="email" class="form-control border-dark border-2 rounded-3 pt-3" id="floatingInput" 
-                              placeholder="" v-model="email" required @input="emailInput.classList.remove('is-invalid')">
-                        <label class="fw-bold position-absolute top-0 ms-2 bg-light rounded-3 px-2 mb-0" for="floatingInput">Email</label>
-                        <div class="invalid-feedback">
-                            {{ emailErrorMsg }}
-                        </div>
-                    </div>
-                    
-                    <div class="mb-5 col-12 col-lg-auto mx-auto mx-lg-0 d-flex justify-content-center justify-content-lg-start">
-                        <button 
-                            type="submit" 
-                            class="btn rounded-3 fw-bold px-4 py-3 mt-4 fs-5" 
-                            style="background-color: #E3E3E3;"
-                            :disabled="isSubmitting">
-                            <span v-if="isSubmitting" class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
-                            <span role="status">{{ isSubmitting ? 'Processing...' : 'Reset Password' }}</span>
-                        </button>
-                    </div>
-                    
-                </div>
-  </form>
+    <form ref="loginForm" @submit.prevent="handleResetPassword" class="needs-validation" novalidate>
+      <div class="">
+        <header class="fs-1 fw-bold mb-4 text-center text-lg-start">
+          Forgot password
+        </header>
+        <p>Remember your password? <router-link to="/login" class="text-dark fw-bold">Login here</router-link></p>
+        
+        <div class="mb-3 position-relative pt-2 pe-xl-5">
+          <input ref="emailInput" type="email" class="form-control border-dark border-2 rounded-3 pt-3" id="floatingInput" 
+                placeholder="" v-model="email" required @input="emailInput.classList.remove('is-invalid')">
+          <label class="fw-bold position-absolute top-0 ms-2 bg-light rounded-3 px-2 mb-0" for="floatingInput">Email</label>
+          <div class="invalid-feedback">
+            {{ emailErrorMsg }}
+          </div>
+        </div>
+        
+        <div class="mb-5 col-12 col-lg-auto mx-auto mx-lg-0 d-flex justify-content-center justify-content-lg-start">
+          <button 
+            type="submit" 
+            class="btn rounded-3 fw-bold px-4 py-3 mt-4 fs-5" 
+            style="background-color: #E3E3E3;"
+            :disabled="isSubmitting">
+            <span v-if="isSubmitting" class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+            <span role="status">{{ isSubmitting ? 'Processing...' : 'Reset Password' }}</span>
+          </button>
+        </div>
+        
+      </div>
+    </form>
+  </div>
 </template>
 
 
