@@ -6,68 +6,6 @@
     <!-- Main Content -->
     <div class="container-fluid pb-5 content-layer">
 
-      
-      <!-- Header Section -->
-      <div class="d-flex align-items-end justify-content-between mb-5 header-animate">
-        <div class="d-flex align-items-center gap-4">
-          <!-- Animated Logo Icon -->
-          <div class="hero-icon-container">
-            <svg viewBox="0 0 24 24" class="hero-svg" fill="none" stroke="currentColor" stroke-width="2">
-              <path class="path-draw" d="M21 21l-4.35-4.35" stroke-linecap="round"/>
-              <circle class="circle-pulse" cx="11" cy="11" r="8"/>
-              <path class="sparkle-1" d="M21 5l-2 2" stroke-linecap="round"/>
-              <path class="sparkle-2" d="M5 21l2-2" stroke-linecap="round"/>
-            </svg>
-            <div class="glow-effect"></div>
-          </div>
-          <div>
-            <h1 class="display-title">Keywords</h1>
-            <p class="subtitle">Real-time search intent & Q&A analysis</p>
-          </div>
-        </div>
-        
-        <!-- Glass Status Capsule -->
-        <div class="status-capsule glass-panel" :class="{ 'is-live': wsConnected }">
-          <div class="pulse-ring"></div>
-          <span class="status-text">{{ wsConnected ? 'Live' : 'Connecting...' }}</span>
-        </div>
-      </div>
-
-      <!-- NEW: Announcement Section (Modified Text) -->
-      <div class="glass-panel mb-5 p-4 announcement-panel header-animate">
-        <div class="d-flex align-items-start gap-3">
-          <div class="announcement-icon">
-            <i class="bi bi-megaphone-fill"></i>
-          </div>
-          <div class="flex-grow-1">
-            <h5 class="mb-2 fw-bold" style="color: var(--text-primary);">ประกาศรับสมัครนักศึกษา</h5>
-            
-            <!-- Announcement Text Container -->
-            <div class="announcement-text">
-               <!-- Case 1: Show Truncated Text -->
-               <span v-if="!isExpanded">
-                {{ truncatedText }}
-                <span v-if="shouldTruncate" class="text-secondary">...</span>
-              </span>
-              <!-- Case 2: Show Full Text -->
-              <span v-else>
-                {{ announcementFullText }}
-              </span>
-            </div>
-
-            <!-- Toggle Button -->
-            <button 
-              v-if="shouldTruncate" 
-              @click="toggleReadMore" 
-              class="btn-read-more mt-2"
-            >
-              {{ isExpanded ? 'ซ่อนบางส่วน' : 'อ่านต่อ' }}
-              <i class="bi" :class="isExpanded ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-
       <!-- Loading Skeleton -->
       <div v-if="keywordsLoading" class="loader-container fade-in">
         <div class="spinner-apple">

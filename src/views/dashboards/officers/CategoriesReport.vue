@@ -2,28 +2,6 @@
   <div class="dashboard-container">
     <!-- Main Content -->
     <div class="container-fluid pt-2 px-4 pb-5">
-      <!-- Header with Apple-style Icon -->
-      <div class="d-flex align-items-center justify-content-between mb-4 fade-in-up">
-        <div class="d-flex align-items-center gap-3">
-          <!-- New Apple Icon Box -->
-          <div class="apple-icon-box">
-            <i class="bi bi-folder2-open text-white"></i>
-          </div>
-          <div>
-            <h3 class="page-title m-0">Categories Report</h3>
-            <span class="text-secondary small">ภาพรวมและโครงสร้างหมวดหมู่</span>
-          </div>
-        </div>
-        
-        <!-- Live Status Badge -->
-        <div class="d-flex align-items-center gap-2">
-          <div class="apple-status-badge" :class="{ 'online': wsConnected }">
-            <span class="status-dot"></span>
-            <span>{{ wsConnected ? 'Live' : 'Offline' }}</span>
-          </div>
-        </div>
-      </div>
-
       <div v-if="categoriesLoading" class="text-center py-5 fade-in">
         <div class="apple-spinner"></div>
         <p class="mt-3 text-secondary">Loading categories...</p>

@@ -2,28 +2,6 @@
   <div class="dashboard-container">
     <!-- Main Content -->
     <div class="container-fluid pt-2 px-4 pb-5">
-      <!-- Header -->
-      <div class="d-flex align-items-center justify-content-between mb-4 fade-in-up">
-        <div class="d-flex align-items-center gap-3">
-          <!-- Apple Icon Box (Orange for "Action Required") -->
-          <div class="apple-icon-box orange-gradient">
-            <i class="bi bi-clipboard-check-fill text-white"></i>
-          </div>
-          <div>
-            <h3 class="page-title m-0">Review Pending</h3>
-            <span class="text-secondary small">Questions requiring update or verification</span>
-          </div>
-        </div>
-        
-        <!-- Live Status -->
-        <div class="d-flex align-items-center gap-2">
-          <div class="apple-status-badge" :class="{ 'online': wsConnected }">
-            <span class="status-dot"></span>
-            <span>{{ wsConnected ? 'Live' : 'Offline' }}</span>
-          </div>
-        </div>
-      </div>
-
       <!-- Loading State -->
       <div v-if="loading" class="text-center py-5 fade-in">
         <div class="apple-spinner"></div>
