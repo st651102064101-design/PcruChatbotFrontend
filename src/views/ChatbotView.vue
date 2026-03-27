@@ -8213,7 +8213,12 @@ export default {
       // Stop welcome typing once user interacts
       this.welcomeTyping = false
       
-      // Add user message
+      // 📝 Create new conversation BEFORE adding message (for non-Gemini mode, skip if temporary)
+      if (!this.useGeminiMode && !this.currentChatbotConversationId && !this.isTemporaryChatbot) {
+        this.createNewChatbotConversation()
+      }
+      
+      // Add user message (after conversation is created so it won't be cleared)
       const userMessage = {
         id: ++this.messageIdCounter,
         type: 'user',
@@ -8233,11 +8238,6 @@ export default {
 
       // If the user typed the name of a category item, disable it so it can't be selected again
       try { this.disableCategoryItemByLabel(originalUserMessage) } catch (e) { /* ignore */ }
-      
-      // 📝 Create new conversation if needed (for non-Gemini mode, skip if temporary)
-      if (!this.useGeminiMode && !this.currentChatbotConversationId && !this.isTemporaryChatbot) {
-        this.createNewChatbotConversation()
-      }
       
       // Save to localStorage
       this.saveChatHistory()
