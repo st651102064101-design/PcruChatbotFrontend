@@ -986,9 +986,9 @@
                     </div>
                   </div>
 
-                  <!-- 📋 Copy button for bot messages WITHOUT apple-feedback (no answer / multiple results) -->
+                  <!-- 📋 Copy button for bot messages with MULTIPLE results (not single answer, not no-answer) -->
                   <div
-                    v-if="msg.type === 'bot' && !msg.typing && msg.text && !(msg.found === true && !msg.multipleResults)"
+                    v-if="msg.type === 'bot' && !msg.typing && msg.text && msg.found === true && msg.multipleResults"
                     class="bot-copy-standalone"
                   >
                     <button
