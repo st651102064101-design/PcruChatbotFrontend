@@ -451,6 +451,31 @@
               </div>
             </div>
             
+            <!-- Diagnostics Info -->
+            <div v-if="seedModal.diagnostics" class="seed-diagnostics">
+              <h5 class="diagnostics-title">📊 System Status</h5>
+              <div class="diagnostics-grid">
+                <div class="diagnostic-item">
+                  <span class="diagnostic-label">PyThaiNLP Stopwords:</span>
+                  <span class="diagnostic-value">{{ seedModal.diagnostics.pythainlpStopwordsCount }}</span>
+                </div>
+                <div class="diagnostic-item">
+                  <span class="diagnostic-label">Database Stopwords:</span>
+                  <span class="diagnostic-value">{{ seedModal.diagnostics.databaseStopwordsCount }}</span>
+                </div>
+                <div class="diagnostic-item">
+                  <span class="diagnostic-label">Ready to Add:</span>
+                  <span class="diagnostic-value">{{ seedModal.diagnostics.newWordsToAdd }}</span>
+                </div>
+                <div class="diagnostic-item">
+                  <span class="diagnostic-label">Status:</span>
+                  <span class="diagnostic-value" :class="seedModal.diagnostics.pythainlpLoaded ? 'text-success' : 'text-danger'">
+                    {{ seedModal.diagnostics.pythainlpLoaded ? '✅ Loaded' : '❌ Failed' }}
+                  </span>
+                </div>
+              </div>
+            </div>
+            
             <!-- Empty state -->
             <div v-if="seedModal.toAdd.length === 0" class="seed-empty">
               <i class="bi bi-check-circle-fill text-success" style="font-size: 2rem;"></i>
@@ -564,7 +589,8 @@ const seedModal = ref({
   loading: false,
   toAdd: [],
   alreadyExists: [],
-  totalStandard: 0
+  totalStandard: 0,
+  diagnostics: null
 });
 
 // Pagination
@@ -857,6 +883,7 @@ async function confirmSeed() {
   seedModal.value.loading = true;
   seedModal.value.toAdd = [];
   seedModal.value.alreadyExists = [];
+  seedModal.value.diagnostics = null;
   
   try {
     const response = await $axios.get('/stopwords/seed/preview');
@@ -864,6 +891,11 @@ async function confirmSeed() {
       seedModal.value.toAdd = response.data.data.toAdd || [];
       seedModal.value.alreadyExists = response.data.data.alreadyExists || [];
       seedModal.value.totalStandard = response.data.data.totalStandard || 0;
+      
+      // Set diagnostics info
+      if (response.data.data.diagnostics) {
+        seedModal.value.diagnostics = response.data.data.diagnostics;
+      }
     }
   } catch (error) {
     console.error('Error fetching seed preview:', error);
@@ -2213,6 +2245,51 @@ button.mobile-sidebar-toggle.mobile-inline-toggle { display: none !important; bo
   padding: 2rem 0;
   text-align: center;
   color: #6E6E73;
+}
+
+.seed-diagnostics {
+  background: #F5F5F7;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin: 1rem 0 1.5rem 0;
+  border-left: 4px solid #007AFF;
+}
+
+.diagnostics-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem 0;
+  text-align: left;
+  color: #666;
+}
+
+.diagnostics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.diagnostic-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  font-size: 0.85rem;
+}
+
+.diagnostic-label {
+  font-weight: 500;
+  color: #666;
+}
+
+.diagnostic-value {
+  font-weight: 600;
+  color: #007AFF;
+  background: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  min-width: 60px;
+  text-align: center;
 }
 
 .loading-spinner {
