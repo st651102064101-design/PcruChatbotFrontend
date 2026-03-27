@@ -11,11 +11,11 @@
     <!-- Main Content -->
     <div class="container-fluid pt-2 px-4 pb-5">
 
-      <div v-else-if="categoriesError" class="alert apple-alert-danger mx-auto" role="alert">
+      <div v-if="categoriesError" class="alert apple-alert-danger mx-auto" role="alert">
         <i class="bi bi-exclamation-circle-fill me-2"></i> {{ categoriesError }}
       </div>
 
-      <div v-else class="fade-in-up" style="animation-delay: 0.1s;">
+      <div v-else-if="!categoriesLoading" class="fade-in-up" style="animation-delay: 0.1s;">
         <!-- Stats Cards Row -->
         <div class="row mb-4 g-3">
           <div class="col-md-4">
