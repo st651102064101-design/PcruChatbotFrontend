@@ -364,7 +364,7 @@
             <i class="bi bi-pencil-square me-2"></i> แก้ไขคำถาม
           </button>
           <button 
-            v-if="drawerFeedback?.FeedbackValue !== 1"
+            v-if="drawerFeedback?.FeedbackValue === 0"
             class="btn-apple-secondary text-danger flex-fill" 
             @click="handleFeedbackFromDrawer"
             :disabled="deletingFeedbackId === drawerFeedback?.FeedbackID"
