@@ -364,7 +364,7 @@
             <i class="bi bi-pencil-square me-2"></i> แก้ไขคำถาม
           </button>
           <button 
-            v-if="drawerFeedback?.FeedbackValue === 0 || drawerFeedback?.FeedbackValue === 2"
+            v-if="drawerFeedback?.FeedbackValue != null"
             class="btn-apple-secondary text-danger flex-fill" 
             @click="handleFeedbackFromDrawer"
             :disabled="deletingFeedbackId === drawerFeedback?.FeedbackID"
@@ -1177,13 +1177,7 @@ async function saveInlineEdit() {
 async function handleFeedback(fb) {
   if (!fb?.FeedbackID) return;
   // Prevent handling feedback that is not of the expected type (server expects FeedbackValue === 0)
-  if (fb.FeedbackValue != null && Number(fb.FeedbackValue) !== 0 && Number(fb.FeedbackValue) !== 2) {
-    const msg = 'Feedback cannot be marked as handled (already handled or unsupported feedback type).';
-    console.warn('handleFeedback prevented for unsupported FeedbackValue:', fb.FeedbackValue, fb);
-    showErrorToast(msg);
-    await openAlert({ message: msg, type: 'error' });
-    return;
-  }
+
   const ok = await openConfirm({ message: 'ยืนยันย้าย Feedback นี้ไปยังรายการที่จัดการแล้ว?' });
   if (!ok) return;
   deletingFeedbackId.value = fb.FeedbackID;
